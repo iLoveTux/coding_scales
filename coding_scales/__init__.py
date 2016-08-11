@@ -59,6 +59,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, index=True, nullable=False)
     email = db.Column(db.String(80), unique=True, index=True)
     password = db.Column(db.String(80))
+    exercises = db.relationship("Exercise", backref="author", lazy="dynamic")
 
     def __init__(self, username=None, email=None, password=None):
         self.username = username
@@ -84,6 +85,10 @@ class User(db.Model):
 class Exercise(db.Model):
     __tablename__ = "exercises"
     id = db.Column(db.Integer, primary_key=True)
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+
+    def __init__(self, author_id):
+        self.author_id = author_id
 
 class Collection(db.Model):
     __tablename__ = "collections"
