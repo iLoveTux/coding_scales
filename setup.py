@@ -11,7 +11,7 @@ https://pypi.python.org/pypi?%3Aaction=list_classifiers
 import sys
 from setuptools import setup
 
-tests_require = ["nose"]
+tests_require = ["nose", "flask_testing"]
 if sys.version_info < (3,0):
     tests_require.append("mock")
 
