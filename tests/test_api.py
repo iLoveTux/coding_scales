@@ -52,19 +52,35 @@ class TestAPI(TestCase):
         db.drop_all()
 
 
+    def login(self, username, password):
+        return self.client.post("/login",
+                                data={
+                                   "username": username,
+                                   "password": password
+                                },
+                                follow_redirects=True)
+
+    def logout(self):
+        return self.client.get("/logout", follow_redirects=True)
+
     def test_get_users_returns_all_users(self):
+        resp = self.login("test-user-1", "test-pass")
         expected = ["test-user-1", "test-user-2"]
         resp = self.client.get("/api/users").json
         results = [user["username"] for user in resp["objects"]]
         self.assertEqual(expected, results)
+        resp = self.logout()
 
     def test_get_exercises(self):
+        resp = self.login("test-user-1", "test-pass")
         expected = [e.name for e in User.query.filter_by(username="test-user-1").first().exercises]
         resp = self.client.get("/api/exercises").json
-        results = [e["name"] for e in resp["objects"] if e["author"]["username"] == "test-user-1"]
+        results = [e["name"] for e in resp["objects"] if e["author_id"] == 1]
         self.assertEqual(expected, results)
+        resp = self.logout()
 
     def test_fields_returned_for_user(self):
+        resp = self.login("test-user-1", "test-pass")
         resp = self.client.get("/api/users").json
         user = resp["objects"][0]
         self.assertIn("id", user)
@@ -75,31 +91,44 @@ class TestAPI(TestCase):
         self.assertNotIn("verified", user)
         self.assertNotIn("billing_date", user)
         self.assertNotIn("role", user)
+        resp = self.logout()
 
     def test_fields_returned_for_exercise(self):
+        resp = self.login("test-user-1", "test-pass")
         resp = self.client.get("/api/exercises").json
         exercise = resp["objects"][0]
         self.assertIn("id", exercise)
         self.assertIn("date_added", exercise)
         self.assertIn("language", exercise)
         self.assertIn("text", exercise)
-        self.assertIn("author", exercise)
+        self.assertIn("author_id", exercise)
         self.assertIn("results", exercise)
+        resp = self.logout()
 
     def test_fields_returned_for_results(self):
+        resp = self.login("test-user-1", "test-pass")
         resp = self.client.get("/api/results").json
         result = resp["objects"][0]
-        self.assertIn("user", result)
+        self.assertIn("user_id", result)
         self.assertIn("exercise", result)
         self.assertIn("time", result)
         self.assertIn("date", result)
+        resp = self.logout()
 
 class TestRBM(TestCase):
     SQLALCHEMY_DATABASE_URI = "sqlite://"
     TESTING = True
 
-    def login(self):
-        pass
+    def login(self, username, password):
+        return self.client.post("/login",
+                                data={
+                                   "username": username,
+                                   "password": password
+                                },
+                                follow_redirects=True)
+
+    def logout(self):
+        return self.client.get("/logout", follow_redirects=True)
 
     def create_app(self):
         # pass in test configuration

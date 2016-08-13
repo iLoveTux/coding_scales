@@ -36,13 +36,15 @@ api_manager = APIManager(app, flask_sqlalchemy_db=db)
 
 def configure_app(debug=False,
                   testing=False,
-                  db_uri=None):
+                  **kwargs):
+                  #db_uri=None):
+    global app
     app.config['DEBUG']                   = debug
     app.config['TESTING']                 = testing
     if testing:
         app.test_request_context().push()
-    if db_uri:
-        app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    # if db_uri:
+    #     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     return app
 
 
@@ -153,8 +155,23 @@ def admin_required(**kw):
         if (role != "admin"):
             raise ProcessingException(description='Not Authorized', code=401)
 
-def private(**kw):
-    print(kw, file=sys.stderr)
+def post_exercises(search_params=None, **kw):
+    filt = dict(name="author_id", op="eq", val=current_user.id)
+    if not "filters" in search_params:
+        search_params["filters"] = []
+    search_params["filters"].append(filt)
+
+def post_exercises(search_params=None, **kw):
+    filt = dict(name="author_id", op="eq", val=current_user.id)
+    if not "filters" in search_params:
+        search_params["filters"] = []
+    search_params["filters"].append(filt)
+
+def private_result(search_params=None, **kw):
+    filt = dict(name="user_id", op="eq", val=current_user.id)
+    if not "filters" in search_params:
+        search_params["filters"] = []
+    search_params["filters"].append(filt)
 
 api_manager.create_api(
     User,
