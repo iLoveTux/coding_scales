@@ -1,0 +1,15 @@
+body {
+  padding-top: 100px;
+}
+.header {
+    text-decoration: underline;
+}
+.column-header {
+    border-bottom: 1px solid grey;
+}
+
+.starter-template {
+  padding: 40px 15px;
+  text-align: left;
+}
+
