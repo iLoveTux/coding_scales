@@ -249,6 +249,26 @@ class ExerciseListAPI(Resource):
     def get(self):
         return Exercise.query.all()
 
+    @login_required()
+    @marshal_with(exercise_fields)
+    def post(self):
+        required_fields = [
+            "name",
+            "language",
+            "text"
+        ]
+        authenticated_user = current_user_or_basic_auth()
+        for field in required_fields:
+            if field not in request.json:
+                abort(500)
+        exercise = Exercise(name=request.json["name"],
+                            language=request.json["language"].lower(),
+                            author_id=authenticated_user.id,
+                            text=request.json["text"])
+        db.session.add(exercise)
+        db.session.commit()
+        return exercise
+
 class ExerciseAPI(Resource):
     @login_required()
     @marshal_with(exercise_fields)

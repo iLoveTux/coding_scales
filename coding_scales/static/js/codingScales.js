@@ -1,6 +1,6 @@
 exerciseTemplate = "<script src='static/mode/{{ language }}/{{ language }}.js'></script><div id='{{ id }}' class='panel panel-default'><div class='panel-heading text-center'><h3>{{ name }}</h3></div><div class='panel-body row'><div class='col-md-6'><h4 class='text-center'>type this</h4><hr /><textarea id='exercise-text'>{{ text }}</textarea></div><div class='col-md-6'><h4 class='text-center'>here</h4><hr /><textarea id='exercise-editor'></textarea></div></div></div>"
 exerciseRowTemplate = "<tr class='exercise' id='{{ id }}'><td>{{ name }}</td><td>{{ language }}</td><td>{{ author_id }}</td><td>{{ date_added }}</td></tr>"
-exerciseCollectionTemplate = "<div class='panel panel-default'><div class='panel-heading'>Exercises</div><table class='table table-striped table-bordered table-hover table-sm'><tr><th>name</th><th>language</th><th>author-id</th><th>date-added</th>{{{ rows }}}</tr></table></div>"
+exerciseCollectionTemplate = "<div class='panel panel-default'><div class='panel-heading'>Exercises</div><table class='table table-striped table-bordered table-hover table-sm'><tr><th>name</th><th>language</th><th>author-id</th><th>date-added</th>{{{ rows }}}</tr></table><button class='btn-inverse pull-right' id='add-exercise'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span></button></div>"
 Mustache.parse(exerciseTemplate)
 Mustache.parse(exerciseRowTemplate)
 Mustache.parse(exerciseCollectionTemplate)
@@ -107,6 +107,34 @@ $( document ).ready(function(){
             exercise = new Exercise( data );
             exercise.render( $( "#display" ) );
         } );
+    });
+
+    $( "body" ).on("click", "#add-exercise", function( event ){
+        $( "#display" ).html("<form action='exercises' method='POST'><div class='form-group'><label for='name'>name</label><input type='textbox' class='form-control' name='name' id='name' /><br /><label for='language'>language</label><input type='textbox' class='form-control' name='language' id='language' /><br /><label for='text'>body</label><textarea id='exercise-body'></textarea><br /><button class='btn btn-lg btn-inverse btn-block' id='submit-exercise' type='submit'>Submit</button></div></form>");
+        var editor = CodeMirror.fromTextArea(
+            document.getElementById("exercise-body"),
+            {lineNumbers: true}
+        );
+    });
+
+    $ ( "body" ).on("click", "#submit-exercise", function( event ){
+        event.preventDefault();
+        data = {
+            name: $( 'input[name=name]' ).val(),
+            language: $( 'input[name=language]' ).val(),
+            text: $('.CodeMirror')[0].CodeMirror.getValue()
+        };
+        $.ajax({
+            url: '/exercises',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function( data ){
+                var collection = new ExerciseCollection( $( "#display" ) );
+                collection.render( $( "#display" ) );
+            }
+        });
     });
 
     $( "#show-exercises" ).on("click", function( event ){

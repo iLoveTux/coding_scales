@@ -1,2 +1,6 @@
 from .coding_scales import (app,
-                            db)
+                            db,
+                            User,
+                            Exercise,
+                            Result,
+                            user_fields)
