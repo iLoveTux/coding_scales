@@ -1,3 +1,4 @@
+import statistics
 import os
 from functools import wraps
 from datetime import datetime
@@ -10,7 +11,8 @@ from flask import (Flask,
                    url_for,
                    flash,
                    request,
-                   abort)
+                   abort,
+                   jsonify)
 from flask_login import (current_user,
                          login_user,
                          logout_user,
@@ -22,6 +24,12 @@ from flask_restful import (reqparse,
                            Resource,
                            fields,
                            marshal_with)
+import matplotlib
+matplotlib.use("svg")
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy import stats
+from io import StringIO
 
 def login_required(role="ANY"):
     """marks a request as needing authorization, authorization can
@@ -223,7 +231,9 @@ class UserListAPI(Resource):
     @login_required()
     @marshal_with(user_fields)
     def get(self):
-        return User.query.all()
+        per_page = int(request.args.get("per_page", 25))
+        page = int(request.args.get("page", 1))
+        return User.query.paginate(page=page, per_page=per_page).items
 
     @login_required("admin")
     @marshal_with(user_fields)
@@ -247,7 +257,9 @@ class ExerciseListAPI(Resource):
     @login_required()
     @marshal_with(exercise_fields)
     def get(self):
-        return Exercise.query.all()
+        per_page = int(request.args.get("per_page", 25))
+        page = int(request.args.get("page", 1))
+        return Exercise.query.paginate(page=page, per_page=per_page).items
 
     @login_required()
     @marshal_with(exercise_fields)
@@ -286,10 +298,11 @@ class ResultsListAPI(Resource):
     @login_required()
     @marshal_with(result_fields)
     def get(self):
-        return Result.query.all()
+        per_page = int(request.args.get("per_page", 25))
+        page = int(request.args.get("page", 1))
+        return Result.query.paginate(page=page, per_page=per_page).items
 
     @login_required()
-    @marshal_with(result_fields)
     def post(self):
         required_fields = [
             "exercise_id",
@@ -305,7 +318,10 @@ class ResultsListAPI(Resource):
                         user_id=current_user_or_basic_auth().id)
         db.session.add(result)
         db.session.commit()
-        return result
+        _statistics = get_statistics(request.json["exercise_id"],
+                                     time=request.json["time"],
+                                     keypresses=request.json["keypresses"])
+        return _statistics
 
 api.add_resource(UserAPI, "/users/<id>")
 api.add_resource(UserListAPI, "/users")
@@ -336,11 +352,39 @@ def index():
         return redirect(url_for("login"))
     return render_template("index.html", **{"username": current_user.username})
 
+@app.route("/results.html")
+def results():
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    return render_template("results.html", **{"username": current_user.username})
+
 @app.route("/logout")
 @login_required()
 def logout():
     logout_user()
     return redirect(url_for("index"))
+
+def get_statistics(exercise_id, time, keypresses):
+    results = Result.query.filter_by(exercise_id=exercise_id)
+    times = np.array([result.time for result in results])
+    _keypresses = np.array([result.keypresses for result in results])
+    ret = {
+        "times": sorted(map(int, times)),
+        "keypresses": sorted(map(int, _keypresses)),
+        "avg_time": float(np.mean(times)),
+        "avg_keypresses": float(np.mean(_keypresses)),
+        "max_time": float(np.amax(times)),
+        "min_time": float(np.amin(times)),
+        "median_time": float(np.median(times)),
+        "max_keypresses": float(np.amax(_keypresses)),
+        "min_keypresses": float(np.amin(_keypresses)),
+        "median_keypresses": float(np.median(_keypresses)),
+        "percentile_of_time": float(stats.percentileofscore(times, time)),
+        "percentile_of_keypresses": float(stats.percentileofscore(_keypresses, keypresses)),
+        "your_time": float(time),
+        "your_keypresses": float(keypresses)
+    }
+    return jsonify(ret)
 
 if __name__ == "__main__":
     app.run(debug=True)

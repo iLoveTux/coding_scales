@@ -1,6 +1,8 @@
+resultsTemplate = "<div class='container'><h1 class='text-center'>Good Work!</h1><p class='lead text-center'>Here are your results</p><div class='panel-group'><div class='col-md-12'><div class='panel panel-default'><div class='panel-heading'>Results</div><div class='panel-body'><table class='table table-bordered table-hover table-condensed table-striped'><thead class='thead-inverse'><tr><th><strong>hello-world.py</strong></th><th>time</th><th>keystrokes</th></tr></thead><tr class='success'><td><strong>You</strong></td><td>{{your_time}}</td><td>{{your_keypresses}}</td></tr><tr><td><strong>Percentile</strong></td><td>{{percentile_of_time}}</td><td>{{percentile_of_keypresses}}</td></tr><tr><td><strong>Min</strong></td><td>{{min_time}}</td><td>{{min_keypresses}}</td></tr><tr><td><strong>Max</strong></td><td>{{max_time}}</td><td>{{max_keypresses}}</td></tr><tr><td><strong>Average</strong></td><td>{{avg_time}}</td><td>{{avg_keypresses}}</td></tr><tr><td><strong>Median</strong></td><td>{{median_time}}</td><td>{{median_keypresses}}</td></tr></table></div></div></div></div></div>"
 exerciseTemplate = "<script src='static/mode/{{ language }}/{{ language }}.js'></script><div id='{{ id }}' class='panel panel-default'><div class='panel-heading text-center'><h3>{{ name }}</h3></div><div class='panel-body row'><div class='col-md-6'><h4 class='text-center'>type this</h4><hr /><textarea id='exercise-text'>{{ text }}</textarea></div><div class='col-md-6'><h4 class='text-center'>here</h4><hr /><textarea id='exercise-editor'></textarea></div></div></div>"
 exerciseRowTemplate = "<tr class='exercise' id='{{ id }}'><td>{{ name }}</td><td>{{ language }}</td><td>{{ author_id }}</td><td>{{ date_added }}</td></tr>"
 exerciseCollectionTemplate = "<div class='panel panel-default'><div class='panel-heading'>Exercises</div><table class='table table-striped table-bordered table-hover table-sm'><tr><th>name</th><th>language</th><th>author-id</th><th>date-added</th>{{{ rows }}}</tr></table><button class='btn-inverse pull-right' id='add-exercise'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span></button></div>"
+Mustache.parse(resultsTemplate)
 Mustache.parse(exerciseTemplate)
 Mustache.parse(exerciseRowTemplate)
 Mustache.parse(exerciseCollectionTemplate)
@@ -68,7 +70,7 @@ var Exercise = function( obj ){
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function( data ){
-                        alert(JSON.stringify(data));
+                        $( "#display" ).html(Mustache.render(resultsTemplate, data));
                     }
                 });
             }
