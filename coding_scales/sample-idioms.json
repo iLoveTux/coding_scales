@@ -1,0 +1,194 @@
+[
+    {
+        "author_id": 1,
+        "text": "print(\"hello, world!\")\n",
+        "language": "python",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "System.out.println(\"hello world\");\n",
+        "language": "java",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "echo \"Hello World\\n\";\n",
+        "language": "php",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "import \"fmt\"\nfmt.Println(\"Hello World\")\n",
+        "language": "go",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "document.write(\"Hello World!\");\n",
+        "language": "javascript",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "#include <stdio.h>\nprintf(\"Hello World\\n\");\n",
+        "language": "c",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "System.Console.WriteLine(\"Hello World!\");\n",
+        "language": "c#",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "puts \"Hello World\"\n",
+        "language": "ruby",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "#include <iostream>\nstd::cout << \"Hello World\\n\";\n",
+        "language": "c++",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "println!(\"Hello World\");\n",
+        "language": "rust",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "with Ada.Text_IO;\nuse Ada.Text_IO;\n\nPut(\"Hello World!\");\n",
+        "language": "ada",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "print_endline \"Hello World!\"\n",
+        "language": "caml",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "(println \"Hello World\")\n",
+        "language": "clojure",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "import std.stdio;\nwriteln(\"Hello world!\");\n",
+        "language": "d",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "print(\"Hello World\");\n",
+        "language": "dart",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "io:format(\"~s~n\", [\"Hello, world!\"])\n",
+        "language": "erlang",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "write(*,*) 'Hello, world!'\n",
+        "language": "fortran",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "(princ \"Hello, world!\")\n",
+        "language": "lisp",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "WriteLn('Hello, world!');\n",
+        "language": "pascal",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "print \"Hello, world!\";\n",
+        "language": "perl",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "println(\"Hello, World!\")\n",
+        "language": "scala",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "(display \"Hello World\")\n",
+        "language": "scheme",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "#import <stdio.h>\n\nNSLog(@\"Hello world\\n\");\n",
+        "language": "obj-c",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "#import <stdio.h>\n\nNSLog(@\"Hello world\\n\");\n",
+        "language": "vb",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "write('Hello, world!\\n')\n",
+        "language": "prolog",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "print(\"Hello World\")\n",
+        "language": "lua",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "putStrLn \"Hello world!\"\n",
+        "language": "haskell",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "IO.puts \"Hello World\"\n",
+        "language": "elixir",
+        "name": "hello world"
+    },
+    {
+        "author_id": 1,
+        "text": "pragma(msg, \"Hello World\");\n",
+        "language": "d",
+        "name": "hello world (compile-time)"
+    },
+    {
+        "author_id": 1,
+        "text": "console.log(\"Hello World\");\n",
+        "language": "javascript",
+        "name": "hello world (to console)"
+    },
+    {
+        "author_id": 1,
+        "text": "a, b = b, a\n",
+        "language": "python",
+        "name": "variable swap"
+    },
+    {
+        "author_id": 1,
+        "text": "a, b = b, a\n",
+        "language": "python",
+        "name": "variable swap"
+    }
+]

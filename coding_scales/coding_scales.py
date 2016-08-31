@@ -118,7 +118,7 @@ class User(db.Model, UserMixin):
 class Exercise(db.Model):
     __tablename__ = "exercises"
     id            = db.Column(db.Integer, primary_key=True)
-    name          = db.Column(db.String(80), nullable=False, unique=True)
+    name          = db.Column(db.String(80), nullable=False)
     date_added    = db.Column(db.DateTime, nullable=False)
     language      = db.Column(db.String(80), nullable=False)
     text          = db.Column(db.Text, nullable=False)

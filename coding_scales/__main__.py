@@ -1,4 +1,6 @@
+import os
 import sys
+import json
 try:
     from .coding_scales import (app,
                                 db,
@@ -31,20 +33,11 @@ if "init" in sys.argv:
     db.session.add(user_1)
     db.session.add(user_2)
     db.session.commit()
-    exercise_2 = Exercise(author_id=admin.id,
-                          text='print("hello, world!")\n',
-                          language="python",
-                          name="hello-world.py")
-    exercise_1 = Exercise(author_id=admin.id,
-                          text='a, b = b, a\n',
-                          language="python",
-                          name="variable-swap.py")
-    db.session.add_all([exercise_1, exercise_2])
-    db.session.commit()
-    db.session.add(Result(user_id=admin.id,
-                          exercise_id=exercise_1.id,
-                          time=2,
-                          keypresses=14))
+    filename = os.path.join(os.path.dirname(__file__), "sample-idioms.json")
+    with open(filename, "r") as fp:
+        exercises = json.load(fp)
+    exercises = [Exercise(**kwargs) for kwargs in exercises]
+    db.session.add_all(exercises)
     db.session.commit()
 if "run" in sys.argv:
     app.run(debug=True)
