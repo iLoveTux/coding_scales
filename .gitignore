@@ -87,3 +87,4 @@ ENV/
 
 # Rope project settings
 .ropeproject
+coding_scales/coding_scales.db
