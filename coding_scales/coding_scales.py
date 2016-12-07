@@ -6,7 +6,7 @@
 # Pretty graphs
 # Build standings report
 # Build profile editor
-# Make exercises link not append /# to  address bar
+# - Make exercises link not append /# to  address bar
 #  
 
 
