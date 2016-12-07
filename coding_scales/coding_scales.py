@@ -1,3 +1,15 @@
+# TODO:
+#
+# - Allow paging through exercises
+# Allow sorting on columns
+# Allow Workouts
+# Pretty graphs
+# Build standings report
+# Build profile editor
+# Make exercises link not append /# to  address bar
+#  
+
+
 import statistics
 import os
 from functools import wraps
@@ -165,7 +177,9 @@ exercise_fields = {
     "language":   fields.String,
     "date_added": fields.DateTime,
     "author_id":  fields.Integer,
-    "text":       fields.String
+    "text":       fields.String,
+    "page":       fields.Integer,
+    "pages":      fields.Integer,
 }
 result_fields = {
     "id":          fields.Integer,
@@ -259,7 +273,12 @@ class ExerciseListAPI(Resource):
     def get(self):
         per_page = int(request.args.get("per_page", 25))
         page = int(request.args.get("page", 1))
-        return Exercise.query.paginate(page=page, per_page=per_page).items
+        results = Exercise.query.paginate(page=page, per_page=per_page)
+        pages, items = results.pages, results.items
+        for item in items:
+            item.page = page
+            item.pages = pages 
+        return items
 
     @login_required()
     @marshal_with(exercise_fields)
