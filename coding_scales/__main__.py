@@ -2,17 +2,9 @@ import os
 import sys
 import json
 try:
-    from .coding_scales import (app,
-                                db,
-                                User,
-                                Exercise,
-                                Result)
-except SystemError:
-    from coding_scales import (app,
-                                db,
-                                User,
-                                Exercise,
-                                Result)
+    from .coding_scales import (app,db,User,Exercise,Result)
+except:
+    from coding_scales import (app,db,User,Exercise,Result)
 
 
 if "init" in sys.argv:

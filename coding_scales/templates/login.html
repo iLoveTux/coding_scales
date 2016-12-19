@@ -52,6 +52,22 @@
     </div> <!-- /container -->
 
 
+
+<!-- /Paypal -->
+<div class="container" style="">
+  <form action="https://www.paypal.com/cgi-bin/webscr" method="post"  class="form-signin">
+    <input type="hidden" name="business" value="Coding_Scales@gmail.com">
+    <input type="hidden" name="cmd" value="_xclick">
+    <input type="hidden" name="item_name" value="Coding Sales Typing Tutuor">
+    <input type="hidden" name="amount" value="1.99">
+    <input type="hidden" name="currency_code" value="USD">
+    <input type="hidden" name="return" value="http://{{hosttoserve}}/success/">
+    <input type="hidden" name="cancel_return" value="http://{{hosttoserve}}">
+    <input type="image" name="submit" border="0" src="static/paypal.jpg" style="width:280px;height:55px;">
+ </form>
+</div>
+
+
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="static/js/ie10-viewport-bug-workaround.js"></script>
   </body>
