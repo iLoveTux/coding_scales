@@ -257,7 +257,7 @@ class ExerciseListAPI(Resource):
     @login_required()
     @marshal_with(exercise_fields)
     def get(self):
-        per_page = int(request.args.get("per_page", 25))
+        per_page = int(request.args.get("per_page", 50))
         page = int(request.args.get("page", 1))
         return Exercise.query.paginate(page=page, per_page=per_page).items
 

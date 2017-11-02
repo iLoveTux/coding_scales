@@ -25,7 +25,10 @@ setup(
         "flask",
         "flask_restful",
         "flask_login",
-        "flask_sqlalchemy"
+        "flask_sqlalchemy",
+        "matplotlib",
+        "numpy",
+        "scipy",
     ],
     test_suite="nose.collector",
     tests_require=tests_require,
